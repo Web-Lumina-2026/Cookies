@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 40 30% 98%;
+    --foreground: 24 35% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 24 35% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 35% 15%;
+    --primary: 28 65% 36%;
+    --primary-foreground: 40 30% 98%;
+    --secondary: 35 30% 93%;
+    --secondary-foreground: 28 65% 20%;
+    --muted: 35 20% 94%;
+    --muted-foreground: 25 10% 45%;
+    --accent: 38 70% 90%;
+    --accent-foreground: 28 65% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 28 65% 36%;
+    --radius: 0.85rem;
+  }
+
+  .dark {
+    --background: 24 25% 10%;
+    --foreground: 35 30% 95%;
+    --card: 24 22% 14%;
+    --card-foreground: 35 30% 95%;
+    --popover: 24 22% 14%;
+    --popover-foreground: 35 30% 95%;
+    --primary: 32 75% 55%;
+    --primary-foreground: 24 35% 10%;
+    --secondary: 24 18% 20%;
+    --secondary-foreground: 35 30% 90%;
+    --muted: 24 18% 22%;
+    --muted-foreground: 35 15% 65%;
+    --accent: 28 40% 25%;
+    --accent-foreground: 35 30% 90%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 24 18% 24%;
+    --input: 24 18% 24%;
+    --ring: 32 75% 55%;
+  }
+}
+
+body {
+  background-color: #faf7f2;
+  color: #2b1f1d;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Veg / Non-Veg Indicator icons */
+.veg-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #16a34a;
+  border-radius: 3px;
+  padding: 1px;
+}
+.veg-badge::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #16a34a;
+}
+
+.non-veg-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #dc2626;
+  border-radius: 3px;
+  padding: 1px;
+}
+.non-veg-badge::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 6px solid #dc2626;
+}
+
+/* Hide scrollbars for category pills */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
