@@ -1,6 +1,15 @@
 import { Order, OrderStatus, CartItem, getSavedOrders, saveOrders, createNewOrder, updateOrderStatus as localUpdateStatus } from "./order-store"
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api"
+export function getApiBase(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL
+  }
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname || "127.0.0.1"
+    return `http://${host}:8000/api`
+  }
+  return "http://127.0.0.1:8000/api"
+}
 
 export interface VendorStats {
   totalRevenue: number
@@ -14,7 +23,8 @@ export interface VendorStats {
 // Fetch all orders (with fallback to local storage)
 export async function apiGetOrders(status?: string): Promise<Order[]> {
   try {
-    const url = status ? `${API_BASE}/orders?status=${status}` : `${API_BASE}/orders`
+    const apiBase = getApiBase()
+    const url = status ? `${apiBase}/orders?status=${status}` : `${apiBase}/orders`
     const res = await fetch(url, { cache: "no-store" })
     if (!res.ok) throw new Error("API returned non-200")
     const data = await res.json()
@@ -28,7 +38,7 @@ export async function apiGetOrders(status?: string): Promise<Order[]> {
 // Fetch single order for live tracking
 export async function apiGetOrderById(orderId: string): Promise<Order | null> {
   try {
-    const res = await fetch(`${API_BASE}/orders/${orderId}`, { cache: "no-store" })
+    const res = await fetch(`${getApiBase()}/orders/${orderId}`, { cache: "no-store" })
     if (!res.ok) throw new Error("Order not found")
     return await res.json()
   } catch {
@@ -62,7 +72,7 @@ export async function apiCreateOrder(payload: {
   }))
 
   try {
-    const res = await fetch(`${API_BASE}/orders`, {
+    const res = await fetch(`${getApiBase()}/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -106,7 +116,7 @@ export async function apiCreateOrder(payload: {
 // Update order status (KDS actions)
 export async function apiUpdateOrderStatus(orderId: string, status: OrderStatus): Promise<void> {
   try {
-    const res = await fetch(`${API_BASE}/orders/${orderId}/status`, {
+    const res = await fetch(`${getApiBase()}/orders/${orderId}/status`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
@@ -122,7 +132,7 @@ export async function apiUpdateOrderStatus(orderId: string, status: OrderStatus)
 // Get vendor dashboard stats
 export async function apiGetStats(): Promise<VendorStats> {
   try {
-    const res = await fetch(`${API_BASE}/stats`, { cache: "no-store" })
+    const res = await fetch(`${getApiBase()}/stats`, { cache: "no-store" })
     if (res.ok) return await res.json()
   } catch {}
 
