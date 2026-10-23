@@ -71,7 +71,7 @@ export function getSavedOrders(): Order[] {
               menuItem: {
                 id: "sea-salt-cold-brew",
                 name: "Sea Salt Caramel Cold Brew",
-                category: "cold-coffee",
+                category: "Coffee",
                 price: 245,
                 description: "16-hour slow steeped Chikmagalur Arabica...",
                 image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800&q=80",
@@ -90,7 +90,7 @@ export function getSavedOrders(): Order[] {
               menuItem: {
                 id: "chilli-cheese-toast",
                 name: "Mumbai Spiced Chilli Cheese Toasties",
-                category: "bites-bakery",
+                category: "Bites",
                 price: 195,
                 description: "Artisan sourdough...",
                 image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80",
@@ -124,7 +124,7 @@ export function getSavedOrders(): Order[] {
               menuItem: {
                 id: "south-indian-filter",
                 name: "Estate Filter Coffee (Brass Dabarah)",
-                category: "hot-coffee",
+                category: "Coffee",
                 price: 135,
                 description: "Authentic 80:20 Arabica...",
                 image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",

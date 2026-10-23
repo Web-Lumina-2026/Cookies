@@ -28,7 +28,7 @@ export function PaytmModal({
   // Generate UPI QR code when total changes
   useEffect(() => {
     if (isOpen && totalAmount > 0) {
-      const upiUrl = `upi://pay?pa=roastbloom@paytm&pn=RoastAndBloomCafe&am=${totalAmount}&cu=INR&tn=Table${tableNumber}`
+      const upiUrl = `upi://pay?pa=ghoontcafe@paytm&pn=GhoontCafe&am=${totalAmount}&cu=INR&tn=Table${tableNumber}`
       QRCode.toDataURL(upiUrl, {
         width: 240,
         margin: 2,
@@ -49,7 +49,6 @@ export function PaytmModal({
     setTimeout(() => {
       setIsProcessing(false)
       setIsSuccess(true)
-      // Short delay for visual checkmark before handing over
       setTimeout(() => {
         onPaymentSuccess(method)
       }, 1200)
@@ -57,8 +56,8 @@ export function PaytmModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-stone-900 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-blue-100 dark:border-stone-800 animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#1e110a] text-[#fbf3e6] w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-[#f2c98a]/40 animate-in zoom-in-95 duration-200">
         
         {/* Paytm Header */}
         <div className="bg-[#002970] text-white p-4 relative text-center">
@@ -72,14 +71,14 @@ export function PaytmModal({
 
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <span className="font-black text-xl tracking-tight text-white">paytm</span>
-            <span className="text-xs bg-[#00b9f5] text-[#002970] font-extrabold px-1.5 py-0.5 rounded">
+            <span className="text-xs bg-[#00b9f5] text-[#002970] font-black px-1.5 py-0.5 rounded">
               UPI
             </span>
           </div>
-          <p className="text-[11px] text-blue-100">
-            Table #{tableNumber} • 100% Secure Payment
+          <p className="text-[11px] text-blue-100 font-mono-custom">
+            Table #{tableNumber} · 100% Encrypted Gateway
           </p>
-          <div className="mt-2 text-2xl font-black tracking-tight text-white">
+          <div className="mt-2 text-2xl font-black font-mono-custom tracking-tight text-white">
             {formatINR(totalAmount)}
           </div>
         </div>
@@ -88,38 +87,40 @@ export function PaytmModal({
         <div className="p-5">
           {isSuccess ? (
             <div className="py-8 text-center space-y-3 animate-in fade-in">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center animate-bounce">
+              <div className="w-16 h-16 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/40 mx-auto flex items-center justify-center animate-bounce">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
-              <h3 className="font-extrabold text-lg text-stone-900 dark:text-stone-100">
+              <h3 className="font-display text-2xl text-[#f2c98a]">
                 Payment Received!
               </h3>
-              <p className="text-xs text-stone-500">
+              <p className="font-mono-custom text-xs text-[#fbf3e6]/70">
                 Paid {formatINR(totalAmount)} via Paytm UPI
               </p>
-              <div className="inline-flex items-center gap-1 text-[11px] text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full font-medium">
-                Sent to Barista Station • Table #{tableNumber}
+              <div className="inline-flex items-center gap-1 text-[11px] font-mono-custom text-emerald-300 bg-emerald-950/60 border border-emerald-800 px-3 py-1 rounded-full">
+                Order sent to Barista Station · Table #{tableNumber}
               </div>
             </div>
           ) : isProcessing ? (
             <div className="py-12 text-center space-y-3">
-              <Loader2 className="w-12 h-12 text-[#002970] animate-spin mx-auto" />
-              <p className="text-sm font-bold text-stone-800 dark:text-stone-200">
-                Connecting to Paytm Payment Gateway...
+              <Loader2 className="w-12 h-12 text-[#f2c98a] animate-spin mx-auto" />
+              <p className="font-display text-xl text-[#fbf3e6]">
+                Authorizing Paytm Payment...
               </p>
-              <p className="text-xs text-stone-400">Please do not press back or refresh</p>
+              <p className="font-mono-custom text-xs text-[#fbf3e6]/50">
+                Connecting to NPCI UPI network
+              </p>
             </div>
           ) : (
             <div className="space-y-4">
-              {/* Payment Method Switcher Tabs */}
-              <div className="grid grid-cols-3 gap-1 bg-stone-100 dark:bg-stone-800 p-1 rounded-xl text-xs font-semibold">
+              {/* Payment Switcher */}
+              <div className="grid grid-cols-3 gap-1 bg-black/50 p-1 rounded-xl text-xs font-mono-custom font-bold border border-[rgba(251,243,230,0.14)]">
                 <button
                   type="button"
                   onClick={() => setPaymentMode("upi")}
                   className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-all ${
                     paymentMode === "upi"
-                      ? "bg-white dark:bg-stone-900 text-[#002970] dark:text-blue-300 shadow-xs"
-                      : "text-stone-500"
+                      ? "bg-[#f2c98a] text-[#1a0f08] shadow"
+                      : "text-[#fbf3e6]/60"
                   }`}
                 >
                   <QrCode className="w-3.5 h-3.5" />
@@ -130,8 +131,8 @@ export function PaytmModal({
                   onClick={() => setPaymentMode("apps")}
                   className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-all ${
                     paymentMode === "apps"
-                      ? "bg-white dark:bg-stone-900 text-[#002970] dark:text-blue-300 shadow-xs"
-                      : "text-stone-500"
+                      ? "bg-[#f2c98a] text-[#1a0f08] shadow"
+                      : "text-[#fbf3e6]/60"
                   }`}
                 >
                   <Smartphone className="w-3.5 h-3.5" />
@@ -142,8 +143,8 @@ export function PaytmModal({
                   onClick={() => setPaymentMode("counter")}
                   className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-all ${
                     paymentMode === "counter"
-                      ? "bg-white dark:bg-stone-900 text-[#002970] dark:text-blue-300 shadow-xs"
-                      : "text-stone-500"
+                      ? "bg-[#f2c98a] text-[#1a0f08] shadow"
+                      : "text-[#fbf3e6]/60"
                   }`}
                 >
                   <Banknote className="w-3.5 h-3.5" />
@@ -154,7 +155,7 @@ export function PaytmModal({
               {/* Mode 1: UPI QR Scan */}
               {paymentMode === "upi" && (
                 <div className="flex flex-col items-center text-center space-y-3">
-                  <div className="p-3 bg-white rounded-2xl border-2 border-dashed border-[#002970]/30 shadow-xs">
+                  <div className="p-3 bg-white rounded-2xl border-2 border-dashed border-[#002970]/30 shadow-md">
                     {qrDataUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -169,95 +170,95 @@ export function PaytmModal({
                     )}
                   </div>
 
-                  <p className="text-[11px] text-stone-500">
-                    Scan with <span className="font-semibold text-stone-700">Paytm</span>, Google Pay, PhonePe, or Cred
+                  <p className="font-mono-custom text-[11px] text-[#fbf3e6]/70">
+                    Scan with <span className="font-bold text-[#f2c98a]">Paytm</span>, Google Pay, PhonePe, or Cred
                   </p>
 
                   <button
                     onClick={() => handleSimulatePayment("PAYTM_UPI")}
-                    className="w-full bg-[#002970] hover:bg-[#001f54] text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition-all active:scale-98"
+                    className="w-full bg-[#f2c98a] hover:bg-[#edd09f] text-[#1a0f08] py-2.5 rounded-xl font-mono-custom text-xs font-black shadow-md transition-all active:scale-98"
                   >
-                    Simulate Successful Paytm UPI Payment
+                    Simulate Paytm Payment Success
                   </button>
                 </div>
               )}
 
               {/* Mode 2: UPI Apps Direct */}
               {paymentMode === "apps" && (
-                <div className="space-y-2 pt-1">
+                <div className="space-y-2 pt-1 font-mono-custom">
                   <button
                     onClick={() => handleSimulatePayment("PAYTM_UPI")}
-                    className="w-full p-2.5 rounded-xl border border-blue-200 dark:border-stone-700 bg-blue-50/50 dark:bg-stone-800/60 hover:bg-blue-50 text-left flex items-center justify-between transition-colors"
+                    className="w-full p-2.5 rounded-xl border border-blue-500/40 bg-blue-950/40 hover:bg-blue-900/40 text-left flex items-center justify-between transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-lg bg-[#002970] text-white font-black text-xs flex items-center justify-center">
                         paytm
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-stone-900 dark:text-stone-100">
+                        <div className="text-xs font-bold text-white">
                           Paytm UPI
                         </div>
-                        <div className="text-[10px] text-stone-500">Fast 1-tap approval</div>
+                        <div className="text-[10px] text-blue-300">Fast 1-tap approval</div>
                       </div>
                     </div>
-                    <span className="text-xs font-bold text-[#002970] dark:text-blue-300">Pay</span>
+                    <span className="text-xs font-bold text-[#f2c98a]">Pay</span>
                   </button>
 
                   <button
                     onClick={() => handleSimulatePayment("PAYTM_UPI")}
-                    className="w-full p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-800/60 text-left flex items-center justify-between transition-colors"
+                    className="w-full p-2.5 rounded-xl border border-[rgba(251,243,230,0.14)] bg-black/40 hover:bg-white/5 text-left flex items-center justify-between transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white font-black text-xs flex items-center justify-center">
                         पे
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-stone-900 dark:text-stone-100">
+                        <div className="text-xs font-bold text-white">
                           PhonePe
                         </div>
-                        <div className="text-[10px] text-stone-500">UPI ID / QR</div>
+                        <div className="text-[10px] text-stone-400">UPI App</div>
                       </div>
                     </div>
-                    <span className="text-xs font-bold text-indigo-600">Pay</span>
+                    <span className="text-xs font-bold text-indigo-400">Pay</span>
                   </button>
 
                   <button
                     onClick={() => handleSimulatePayment("PAYTM_UPI")}
-                    className="w-full p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-800/60 text-left flex items-center justify-between transition-colors"
+                    className="w-full p-2.5 rounded-xl border border-[rgba(251,243,230,0.14)] bg-black/40 hover:bg-white/5 text-left flex items-center justify-between transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center">
                         G
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-stone-900 dark:text-stone-100">
+                        <div className="text-xs font-bold text-white">
                           Google Pay
                         </div>
-                        <div className="text-[10px] text-stone-500">Instant UPI transfer</div>
+                        <div className="text-[10px] text-stone-400">Instant UPI transfer</div>
                       </div>
                     </div>
-                    <span className="text-xs font-bold text-emerald-600">Pay</span>
+                    <span className="text-xs font-bold text-emerald-400">Pay</span>
                   </button>
                 </div>
               )}
 
               {/* Mode 3: Pay at Counter */}
               {paymentMode === "counter" && (
-                <div className="py-4 text-center space-y-3">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 mx-auto flex items-center justify-center">
+                <div className="py-4 text-center space-y-3 font-mono-custom">
+                  <div className="w-12 h-12 rounded-full bg-[rgba(251,243,230,0.1)] text-[#f2c98a] mx-auto flex items-center justify-center">
                     <Banknote className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-stone-900 dark:text-stone-100">
-                      Pay Cash / Card at Counter
+                    <h4 className="font-bold text-sm text-[#fbf3e6]">
+                      Pay Cash at Counter
                     </h4>
-                    <p className="text-xs text-stone-500 mt-1 max-w-[260px] mx-auto">
+                    <p className="text-xs text-[#fbf3e6]/60 mt-1 max-w-[260px] mx-auto">
                       Place your order now; our captain will collect payment at Table #{tableNumber} or you can pay when picking up.
                     </p>
                   </div>
                   <button
                     onClick={() => handleSimulatePayment("COUNTER")}
-                    className="w-full bg-amber-700 hover:bg-amber-800 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition-all"
+                    className="w-full bg-[#f2c98a] hover:bg-[#edd09f] text-[#1a0f08] py-2.5 rounded-xl text-xs font-black shadow-md transition-all"
                   >
                     Confirm Order & Pay at Counter
                   </button>
@@ -265,9 +266,9 @@ export function PaytmModal({
               )}
 
               {/* Trust Badge */}
-              <div className="flex items-center justify-center gap-1.5 pt-2 text-[10px] text-stone-400 border-t border-stone-100 dark:border-stone-800">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                <span>NPCI Approved • 256-bit Bank Grade Encryption</span>
+              <div className="flex items-center justify-center gap-1.5 pt-2 text-[10px] font-mono-custom text-[#fbf3e6]/40 border-t border-[rgba(251,243,230,0.1)]">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>NPCI Approved · 256-bit Bank Grade Encryption</span>
               </div>
             </div>
           )}

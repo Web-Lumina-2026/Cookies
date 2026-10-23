@@ -44,8 +44,8 @@ export function MenuGrid({
                     : "bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 hover:border-amber-400"
                 }`}
               >
-                {cat.id === "hot-coffee" && <Flame className="w-3.5 h-3.5 text-amber-500" />}
-                {cat.id === "tea-chai" && <Sparkles className="w-3.5 h-3.5 text-emerald-500" />}
+                {cat.id === "Coffee" && <Flame className="w-3.5 h-3.5 text-amber-500" />}
+                {cat.id === "Chai" && <Sparkles className="w-3.5 h-3.5 text-emerald-500" />}
                 <span>{cat.name}</span>
               </button>
             )

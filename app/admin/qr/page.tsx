@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import QRCode from "qrcode"
 import { CAFE_DETAILS } from "@/lib/cafe-data"
-import { Printer, ArrowLeft, QrCode, Sparkles, Coffee } from "lucide-react"
+import { Printer, ArrowLeft, Coffee, Sparkles } from "lucide-react"
 
 interface TableCard {
   tableNumber: string
@@ -34,7 +34,7 @@ export default function AdminQRGeneratorPage() {
             width: 300,
             margin: 2,
             color: {
-              dark: "#2b1f1d",
+              dark: "#140a05",
               light: "#FFFFFF",
             },
           })
@@ -49,40 +49,36 @@ export default function AdminQRGeneratorPage() {
     generateQRs()
   }, [tableCount, origin])
 
-  const handlePrint = () => {
-    window.print()
-  }
-
   return (
-    <div className="min-h-screen bg-stone-100 dark:bg-stone-950 p-4 sm:p-8 font-sans print:p-0 print:bg-white">
+    <div className="min-h-screen bg-[#140a05] text-[#fbf3e6] p-4 sm:p-8 font-sans print:p-0 print:bg-white print:text-black">
       
       {/* Top Header Controls (Hidden during print) */}
-      <div className="max-w-5xl mx-auto mb-6 print:hidden">
-        <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-stone-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-stone-200 dark:border-stone-800">
+      <div className="max-w-5xl mx-auto mb-8 print:hidden">
+        <div className="flex flex-wrap items-center justify-between gap-4 bg-[#1e110a] p-5 sm:p-6 rounded-3xl border border-[rgba(251,243,230,0.14)] shadow-xl">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Link
                 href="/"
-                className="text-stone-500 hover:text-stone-900 p-1 rounded-lg"
+                className="w-9 h-9 rounded-full bg-[rgba(251,243,230,0.06)] border border-[rgba(251,243,230,0.14)] flex items-center justify-center hover:bg-[rgba(251,243,230,0.15)] text-[#fbf3e6] transition-colors"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4" />
               </Link>
-              <h1 className="font-serif font-bold text-xl sm:text-2xl text-stone-900 dark:text-stone-100">
-                Table QR Standee Generator
+              <h1 className="font-display text-3xl text-[#f2c98a]">
+                Table QR Standees
               </h1>
             </div>
-            <p className="text-xs text-stone-500 mt-1 ml-7">
-              Printable acrylic tent cards with table deep-linking for {CAFE_DETAILS.name}
+            <p className="font-mono-custom text-xs text-[#fbf3e6]/60 mt-1 ml-12">
+              Printable acrylic tent cards for {CAFE_DETAILS.name} with instant table deep-linking
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-xs font-semibold">
-              <label className="text-stone-600 dark:text-stone-400">Tables:</label>
+            <div className="flex items-center gap-2 font-mono-custom text-xs">
+              <label className="text-[#fbf3e6]/60">Tables:</label>
               <select
                 value={tableCount}
                 onChange={(e) => setTableCount(Number(e.target.value))}
-                className="border rounded-lg px-2.5 py-1.5 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-stone-100 font-bold"
+                className="border border-[rgba(251,243,230,0.2)] rounded-xl px-3 py-1.5 bg-black/50 text-[#f2c98a] font-bold"
               >
                 {[2, 4, 6, 8, 10, 12, 16, 20].map((num) => (
                   <option key={num} value={num}>
@@ -93,8 +89,8 @@ export default function AdminQRGeneratorPage() {
             </div>
 
             <button
-              onClick={handlePrint}
-              className="bg-amber-800 hover:bg-amber-900 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 shadow transition-all active:scale-95"
+              onClick={() => window.print()}
+              className="bg-[#f2c98a] hover:bg-[#edd09f] text-[#1a0f08] px-5 py-2.5 rounded-full font-mono-custom text-xs font-black flex items-center gap-2 shadow-lg transition-all active:scale-95"
             >
               <Printer className="w-4 h-4" />
               <span>Print Table Cards</span>
@@ -108,24 +104,26 @@ export default function AdminQRGeneratorPage() {
         {tableCards.map((card) => (
           <div
             key={card.tableNumber}
-            className="bg-white text-stone-900 rounded-3xl p-6 shadow-md border-2 border-stone-200 flex flex-col items-center text-center relative overflow-hidden print:shadow-none print:border-stone-800 print:break-inside-avoid"
+            className="bg-[#faf3e6] text-[#1a0f08] rounded-3xl p-6 shadow-2xl border-2 border-[#1a0f08]/20 flex flex-col items-center text-center relative overflow-hidden print:shadow-none print:border-black print:break-inside-avoid"
           >
-            {/* Top Accent Pill */}
-            <div className="w-full bg-amber-900 text-amber-100 py-1.5 px-3 rounded-full text-[11px] font-bold tracking-wider uppercase mb-4 flex items-center justify-center gap-1.5">
-              <Coffee className="w-3.5 h-3.5 text-amber-300" />
-              <span>{CAFE_DETAILS.name}</span>
+            {/* Top Brand Pill */}
+            <div className="w-full bg-[#140a05] text-[#f2c98a] py-2 px-4 rounded-full text-xs font-bold tracking-wider uppercase mb-4 flex items-center justify-center gap-1.5 shadow-sm">
+              <Coffee className="w-3.5 h-3.5 text-[#f2c98a]" />
+              <span className="font-display text-lg tracking-normal text-[#fbf3e6]">
+                Ghoont Café
+              </span>
             </div>
 
             {/* Table Number Badge */}
-            <div className="text-xs uppercase font-extrabold tracking-widest text-amber-800">
-              Dine-In Table
+            <div className="font-mono-custom text-[11px] uppercase font-bold tracking-widest text-[#8a5530]">
+              DINE-IN TABLE
             </div>
-            <div className="text-4xl font-serif font-black text-stone-900 mb-3">
+            <div className="text-5xl font-display text-[#140a05] my-1">
               #{card.tableNumber}
             </div>
 
             {/* QR Code Container */}
-            <div className="p-3 bg-stone-50 rounded-2xl border-2 border-dashed border-stone-300 mb-3">
+            <div className="p-3.5 bg-white rounded-2xl border-2 border-dashed border-[#8a5530]/40 my-3 shadow-inner">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={card.qrUrl}
@@ -134,20 +132,20 @@ export default function AdminQRGeneratorPage() {
               />
             </div>
 
-            {/* Call to action text */}
+            {/* Action instructions */}
             <div className="space-y-1">
-              <div className="font-bold text-sm text-stone-900">
+              <div className="font-bold text-sm text-[#140a05]">
                 Scan to View Menu & Order
               </div>
-              <p className="text-[11px] text-stone-500 leading-tight">
-                No app required • Instant Paytm / UPI Checkout
+              <p className="text-[11px] text-[#140a05]/70 leading-tight">
+                No app required · Pay via Paytm / UPI · Served to your table
               </p>
             </div>
 
-            {/* WiFi Details */}
-            <div className="mt-4 pt-3 border-t border-stone-200 w-full text-[10px] text-stone-500 flex items-center justify-between">
-              <span>WiFi: <strong className="text-stone-800">{CAFE_DETAILS.wifiName}</strong></span>
-              <span>Pass: <strong className="text-stone-800">{CAFE_DETAILS.wifiPass}</strong></span>
+            {/* WiFi details */}
+            <div className="mt-4 pt-3 border-t border-[#1a0f08]/15 w-full font-mono-custom text-[10px] text-[#140a05]/70 flex items-center justify-between">
+              <span>WiFi: <strong>{CAFE_DETAILS.wifiName}</strong></span>
+              <span>Pass: <strong>{CAFE_DETAILS.wifiPass}</strong></span>
             </div>
           </div>
         ))}
